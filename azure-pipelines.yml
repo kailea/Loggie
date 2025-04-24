@@ -1,0 +1,28 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'macos-latest'
+
+variables:
+  buildConfiguration: 'debug'
+
+steps:
+- checkout: self
+  displayName: 'Checkout source'
+
+- script: |
+    echo "Running Swift tests with coverage..."
+    swift test --enable-code-coverage
+  displayName: 'Run Tests with Code Coverage'
+
+- script: |
+    echo "Generating LCOV report..."
+    mkdir -p coverage
+    xcrun llvm-cov export \
+      .build/debug/LoggiePackageTests.xctest/Contents/MacOS/LoggiePackageTests \
+      -instr-profile .build/debug/codecov/default.profdata \
+      -format=lcov > coverage/lcov.info
+  displayName: 'Generate Code Coverage Report (LCOV)'
