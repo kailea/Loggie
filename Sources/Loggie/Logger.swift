@@ -8,11 +8,9 @@
 import Foundation
 
 public actor Logger {
-	public static let shared = Logger()
-	
 	private var destinations: [String: LogDestination] = [:]
 	
-	private init() {}
+	public init() {}
 	
 	public func addDestination(_ destination: LogDestination) {
 		destinations[destination.identifier] = destination
@@ -47,4 +45,8 @@ public actor Logger {
 	public func error(_ message: String, metadata: [String: Any]? = nil) {
 		log(level: .error, message: message, metadata: metadata)
 	}
+}
+
+public extension Logger {
+	static let shared = Logger()
 }

@@ -3,7 +3,8 @@ import Testing
 
 @Test
 func routingLogToMockDestination() async throws {
-	let logger = Logger.shared
+	let logger = Logger()
+	await logger.removeAllDestinations()
 	let mock = MockDestination(identifier: "mock1")
 	await logger.addDestination(mock)
 
@@ -17,7 +18,7 @@ func routingLogToMockDestination() async throws {
 
 @Test
 func destinationRemoval() async throws {
-	let logger = Logger.shared
+	let logger = Logger()
 	await logger.removeAllDestinations()
 	let mock = MockDestination(identifier: "mock2")
 	await logger.addDestination(mock)
