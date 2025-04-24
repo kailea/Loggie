@@ -19,9 +19,6 @@ jobs:
 
     - name: Set up Swift
       uses: SwiftyLab/setup-swift@latest
-      #uses: swift-actions/setup-swift@v1
-      #with:
-      #  swift-version: "5.9"  # Adjust if you're using 5.10 or 6.x
 
     - name: Build and run tests with coverage
       run: |
