@@ -28,3 +28,33 @@ func destinationRemoval() async throws {
 
 	#expect(mock.loggedMessages.isEmpty)
 }
+
+@Test
+func debugLevelLog() async throws {
+	let logger = Logger()
+
+	let mock = MockDestination(identifier: "debug-test")
+	await logger.addDestination(mock)
+
+	await logger.debug("Debugging mode", metadata: ["debugFlag": true])
+
+	#expect(mock.loggedMessages.count == 1)
+	#expect(mock.loggedMessages[0].0 == .debug)
+	#expect(mock.loggedMessages[0].1 == "Debugging mode")
+	#expect(mock.loggedMessages[0].2?["debugFlag"] as? Bool == true)
+}
+
+@Test
+func warningLevelLog() async throws {
+	let logger = Logger()
+
+	let mock = MockDestination(identifier: "warning-test")
+	await logger.addDestination(mock)
+
+	await logger.warning("Watch out!", metadata: ["threshold": 85])
+
+	#expect(mock.loggedMessages.count == 1)
+	#expect(mock.loggedMessages[0].0 == .warning)
+	#expect(mock.loggedMessages[0].1 == "Watch out!")
+	#expect(mock.loggedMessages[0].2?["threshold"] as? Int == 85)
+}
