@@ -32,10 +32,7 @@ jobs:
           -instr-profile .build/debug/codecov/default.profdata \
           -format=lcov > coverage/lcov.info
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
       with:
-        files: coverage/lcov.info
-        flags: unittests
-        name: codecov-loggie
-        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
