@@ -22,6 +22,10 @@ public actor Logger {
 		destinations.removeValue(forKey: identifier)
 	}
 	
+	public func removeAllDestinations() {
+		destinations.removeAll()
+	}
+	
 	public func log(level: LogLevel, message: String, metadata: [String: Any]? = nil) {
 		for destination in destinations.values {
 			destination.log(level: level, message: message, metadata: metadata)

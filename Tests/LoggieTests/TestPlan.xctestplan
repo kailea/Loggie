@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5A8E899A-1011-473F-92D2-6F1B3F3468A4",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "LoggieTests",
+        "name" : "LoggieTests"
+      }
+    }
+  ],
+  "version" : 1
+}
