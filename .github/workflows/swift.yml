@@ -22,7 +22,7 @@ jobs:
 
     - name: Build and run tests with coverage
       run: |
-        swift test --enable-code-coverage
+        swift test --enable-code-coverage --parallel false
 
     - name: Generate coverage report
       run: |
