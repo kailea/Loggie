@@ -47,7 +47,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
+    environment:
+      name: release   # 👈 this matches the environment name you created
+      url: https://github.com/kailea/Loggie/releases
+      
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
