@@ -95,4 +95,5 @@ jobs:
         tag_name: v${{ env.NEW_TAG }}
         name: Release v${{ env.NEW_TAG }}
         body: |
-          Automated release for Loggie version v${{ env.NEW_TAG}}.
+          ## Changes since v${{ env.LAST_TAG }}
+          ${{ env.changelog }}
