@@ -80,12 +80,12 @@ jobs:
         echo "New tag: $NEW_TAG"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
  
-    - name: Create and push new tag
-      run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git tag ${{ env.NEW_TAG }}
-        git push origin ${{ env.NEW_TAG }}
+    #- name: Create and push new tag
+    #  run: |
+    #    git config user.name "GitHub Actions"
+    #    git config user.email "actions@github.com"
+    #    git tag ${{ env.NEW_TAG }}
+    #    git push origin ${{ env.NEW_TAG }}
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
