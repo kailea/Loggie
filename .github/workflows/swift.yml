@@ -80,12 +80,14 @@ jobs:
         echo "New tag: $NEW_TAG"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
  
-    #- name: Create and push new tag
-    #  run: |
-    #    git config user.name "GitHub Actions"
-    #    git config user.email "actions@github.com"
-    #    git tag ${{ env.NEW_TAG }}
-    #    git push origin ${{ env.NEW_TAG }}
+    - name: Generate Changelog
+      id: generate_changelog
+      run: |
+        echo "Generating changelog since last tag: v${{ env.LAST_TAG }}"
+        changelog=$(git log v${{ env.LAST_TAG }}..HEAD --pretty=format:"- %s" --no-merges)
+        echo "changelog<<EOF" >> $GITHUB_ENV
+        echo "$changelog" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
