@@ -43,7 +43,7 @@ jobs:
         fail_ci_if_error: true
         verbose: true
 
-  create_tag:
+  create_release:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
