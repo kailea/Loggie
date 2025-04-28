@@ -4,7 +4,6 @@
 //
 //  Created by Amandeep Kaile on 24/4/2025.
 //
-
 import Foundation
 
 public class ConsoleLogger: LogDestination {
