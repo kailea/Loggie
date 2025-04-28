@@ -27,7 +27,6 @@ public class WebhookLogger: LogDestination {
 		if let metadata = metadata {
 			payload["metadata"] = metadata
 		}
-		
 		print("🔗 Sending to \(endpoint.absoluteString): \(payload)")
 	}
 }
