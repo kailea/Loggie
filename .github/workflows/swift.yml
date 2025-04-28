@@ -52,25 +52,37 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Fetch all tags
-      run: git fetch --tags
-
-    - name: Get latest tag
-      id: get_tag
+    - name: Get Last Tag
+      id: last_tag
       run: |
-        latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-        echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+        # Fetch all tags from the remote repository
+        git fetch --tags
+        # Extract tags, strip leading v's, sort semver, and get the latest
+        CLEAN_TAG=$(git tag | sed 's/^v*//' | sort -V | tail -n 1)
 
-    - name: Bump patch version
-      id: bump_tag
+        echo "Clean/latest tag: $CLEAN_TAG"
+        echo "LAST_TAG=$CLEAN_TAG" >> $GITHUB_ENV
+    
+    - name: Increment Tag
+      id: increment_tag
       run: |
-        IFS='.' read -r major minor patch <<<"${{ env.latest_tag#v }}"
-        new_tag="v$major.$minor.$((patch + 1))"
-        echo "new_tag=$new_tag" >> $GITHUB_ENV
+        if [ -z "$LAST_TAG" ]; then
+          # If the last tag is empty, set new tag to 1.0.0
+          NEW_TAG="1.0.0"
+        else
+          # Split the last tag into parts
+          tag_parts=($(echo $LAST_TAG | tr '.' ' '))
+          # Increment the patch version
+          patch=$((tag_parts[2] + 1))
+          # Construct the new tag
+          NEW_TAG="${tag_parts[0]}.${tag_parts[1]}.$patch"
+        fi
+        echo "New tag: $NEW_TAG"
+        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
     - name: Create and push new tag
       run: |
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git tag ${{ env.new_tag }}
-        git push origin ${{ env.new_tag }}
+        git tag ${{ env.GITHUB_ENV }}
+        git push origin ${{ env.GITHUB_ENV }}
