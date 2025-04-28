@@ -86,3 +86,11 @@ jobs:
         git config user.email "actions@github.com"
         git tag ${{ env.NEW_TAG }}
         git push origin ${{ env.NEW_TAG }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ env.NEW_TAG }}
+        name: Release v${{ env.NEW_TAG }}
+        body: |
+          Automated release for Loggie version v${{ env.NEW_TAG}}.
