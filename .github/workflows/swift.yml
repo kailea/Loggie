@@ -84,5 +84,5 @@ jobs:
       run: |
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git tag ${{ env.GITHUB_ENV }}
-        git push origin ${{ env.GITHUB_ENV }}
+        git tag ${{ env.NEW_TAG }}
+        git push origin ${{ env.NEW_TAG }}
