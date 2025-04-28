@@ -42,3 +42,35 @@ jobs:
         slug: kailea/Loggie
         fail_ci_if_error: true
         verbose: true
+
+  create_tag:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Fetch all tags
+      run: git fetch --tags
+
+    - name: Get latest tag
+      id: get_tag
+      run: |
+        latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+        echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+    - name: Bump patch version
+      id: bump_tag
+      run: |
+        IFS='.' read -r major minor patch <<<"${{ env.latest_tag#v }}"
+        new_tag="v$major.$minor.$((patch + 1))"
+        echo "new_tag=$new_tag" >> $GITHUB_ENV
+
+    - name: Create and push new tag
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git tag ${{ env.new_tag }}
+        git push origin ${{ env.new_tag }}
